@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PSU Lost &amp; Found Community</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-soft: #f5f7fb;
+      --bg-card: #ffffff;
+      --primary: #1e2952;
+      --accent: #c9a45c;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Sarabun", sans-serif;
+      background: var(--bg-soft);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(20px);
+      background: rgba(245, 247, 251, 0.92);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent);
+      background: #ffffff;
+    }
+
+    .brand-text {
+      line-height: 1.1;
+    }
+
+    .brand-text-small {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .brand-text-main {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .brand-text-main span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .nav-links button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .nav-links button:hover {
+      color: var(--primary);
+    }
+
+    .nav-login {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 500;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .nav-login:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .nav-menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-menu-toggle {
+        display: block;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .nav-menu-toggle span {
+        width: 14px;
+        height: 2px;
+        border-radius: 999px;
+        background: #6b7280;
+        position: relative;
+      }
+
+      .nav-menu-toggle span::before,
+      .nav-menu-toggle span::after {
+        content: "";
+        width: 14px;
+        height: 2px;
+        border-radius: 999px;
+        background: #6b7280;
+        position: absolute;
+        left: 0;
+      }
+
+      .nav-menu-toggle span::before {
+        top: -5px;
+      }
+
+      .nav-menu-toggle span::after {
+        top: 5px;
+      }
+    }
+
+    /* LAYOUT MAIN */
+    main {
+      padding: 20px 0 40px;
+    }
+
+    .hero {
+      margin-top: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-text {
+      padding-right: 12px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      max-width: 460px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-main {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 9px 18px;
+      font-size: 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--primary);
+      padding: 9px 18px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .hero-link {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+
+    .hero-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 16px;
+    }
+
+    .hero-item-image {
+      width: 100%;
+      height: 160px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0f172a, #111827);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      font-size: 12px;
+    }
+
+    .hero-item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .hero-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .badge-lost {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #b91c1c;
+      background: #fef2f2;
+    }
+
+    .hero-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-item-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-item-footer span:last-child {
+      color: var(--accent);
+    }
+
+    /* LIST SECTION */
+    .section-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 18px 16px 20px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 18px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      font-size: 11px;
+      background: #f9fafb;
+      cursor: pointer;
+      color: #4b5563;
+    }
+
+    .tab.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #e5edff;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    select {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      padding: 5px 26px 5px 12px;
+      font-size: 11px;
+      color: #4b5563;
+      outline: none;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+      background-position: calc(100% - 12px) 10px, calc(100% - 7px) 10px;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    .item-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .item-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .item-card {
+      border-radius: var(--radius-md);
+      border: 1px solid #edf0f7;
+      background: #ffffff;
+      padding: 10px 11px;
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .item-thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #111827, #020617);
+    }
+
+    .item-main-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .item-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .badge-small {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+      background: #f9fafb;
+    }
+
+    .badge-status-found {
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #047857;
+      background: #ecfdf3;
+    }
+
+    .badge-status-lost {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #b91c1c;
+      background: #fef2f2;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .item-ai {
+      font-size: 10px;
+      color: var(--accent);
+    }
+
+    /* IMAGE SEARCH SECTION */
+    .image-search {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 860px) {
+      .image-search {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .dropzone {
+      border-radius: var(--radius-md);
+      border: 1px dashed #cbd5f5;
+      background: #f9fafb;
+      padding: 18px 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .dropzone-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #4b5563;
+    }
+
+    .dropzone-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .dropzone-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .dropzone span.highlight {
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .image-info-card {
+      border-radius: var(--radius-md);
+      background: #111827;
+      color: #e5e7eb;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .image-info-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .image-info-sub {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .image-info-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.28);
+      color: #a7f3d0;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+      margin-top: 24px;
+      padding: 12px 0 18px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo">PSU</div>
+        <div class="brand-text">
+          <div class="brand-text-small">LOST &amp; FOUND</div>
+          <div class="brand-text-main">
+            Community <span>Platform</span>
+          </div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <button>หน้าแรก</button>
+        <button>แจ้งของหาย</button>
+        <button>แจ้งเก็บของได้</button>
+        <button>ค้นหาจากรูป</button>
+        <button>ห้องแชท</button>
+        <button class="nav-login" onclick="logout()">
+          ออกจากระบบ
+        </button>
+      </nav>
+      <button class="nav-menu-toggle" aria-label="เมนู">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1 class="hero-title">
+              PSU Lost &amp; Found <br />
+              <span>Community</span>
+            </h1>
+            <p class="hero-sub">
+              รวมศูนย์แจ้งของหายและของเก็บได้สำหรับนิสิตและบุคลากร PSU
+              พร้อมระบบ AI ช่วยค้นหาของจากรูปภาพ
+              และแชทติดต่อผู้เก็บของได้อย่างสะดวกและปลอดภัย
+            </p>
+            <div class="hero-actions">
+              <button class="btn-main">
+                แจ้งของหาย
+              </button>
+              <button class="btn-outline">
+                แจ้งเก็บของได้
+              </button>
+            </div>
+            <div class="hero-link">
+              ดูรายการล่าสุดทั้งหมด →
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <div class="hero-item-image">
+              พรีวิวรูปของหาย / ของเก็บได้
+            </div>
+            <div class="hero-item-head">
+              <div class="hero-item-title">
+                กระเป๋าสตางค์สีดำ
+              </div>
+              <span class="badge-lost">ของหาย</span>
+            </div>
+            <p class="hero-item-meta">
+              คณะวิศวกรรมศาสตร์ · LRC ชั้น 2 · 12 พ.ย. 2025
+            </p>
+            <div class="hero-item-footer">
+              <span>AI Suggestion</span>
+              <span>พบรายการที่คล้ายกัน 3 รายการ</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- LATEST ITEMS SECTION -->
+      <section class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">
+            รายการล่าสุดในมหาวิทยาลัย
+          </h2>
+          <div class="tabs">
+            <button class="tab active">ทั้งหมด</button>
+            <button class="tab">ของหาย</button>
+            <button class="tab">ของเก็บได้</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select>
+            <option>ทุกคณะ</option>
+            <option>วิศวกรรมศาสตร์</option>
+            <option>วิทยาศาสตร์</option>
+            <option>ศึกษาศาสตร์</option>
+          </select>
+          <select>
+            <option>ทุกสถานที่</option>
+            <option>LRC</option>
+            <option>โรงอาหาร</option>
+            <option>อาคารเรียนรวม</option>
+          </select>
+          <select>
+            <option>ช่วงวันที่ทั้งหมด</option>
+            <option>วันนี้</option>
+            <option>สัปดาห์นี้</option>
+            <option>เดือนนี้</option>
+          </select>
+        </div>
+
+        <div class="item-list">
+          <!-- Example card 1 -->
+          <article class="item-card">
+            <div class="item-thumb"></div>
+            <div>
+              <div class="item-main-title">หูฟังไร้สายสีขาว</div>
+              <div class="item-badges">
+                <span class="badge-status-lost badge-small">
+                  ของหาย
+                </span>
+                <span class="badge-small">LRC ชั้น 3</span>
+              </div>
+              <div class="item-meta">
+                คณะวิศวกรรมศาสตร์ · 10 พ.ย. 2025
+              </div>
+              <div class="item-ai">
+                AI: พบ 2 รายการที่คล้ายกัน
+              </div>
+            </div>
+          </article>
+
+          <!-- Example card 2 -->
+          <article class="item-card">
+            <div class="item-thumb"></div>
+            <div>
+              <div class="item-main-title">บัตรนักศึกษา PSU</div>
+              <div class="item-badges">
+                <span class="badge-status-found badge-small">
+                  มีคนเก็บได้
+                </span>
+                <span class="badge-small">โรงอาหารกลาง</span>
+              </div>
+              <div class="item-meta">
+                คณะวิทยาศาสตร์ · 11 พ.ย. 2025
+              </div>
+              <div class="item-ai">
+                AI: มีผู้ร้องขอจับคู่ 1 คน
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- IMAGE SEARCH SECTION -->
+      <section class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">ค้นหาของจากรูปภาพ</h2>
+        </div>
+
+        <div class="image-search">
+          <label class="dropzone">
+            <div class="dropzone-icon">📷</div>
+            <div class="dropzone-title">
+              ลากรูปของที่คุณทำหายมาวางที่นี่
+            </div>
+            <div class="dropzone-sub">
+              หรือ <span class="highlight">คลิกเพื่อเลือกไฟล์</span> จากอุปกรณ์ของคุณ
+            </div>
+            <input
+              id="imageInput"
+              type="file"
+              accept="image/*"
+              style="display: none"
+            />
+          </label>
+
+          <div class="image-info-card">
+            <div class="image-info-title">
+              ระบบ AI Image Similarity
+            </div>
+            <div class="image-info-sub">
+              ระบบจะสร้างรอยนิ้วมือดิจิทัล (embedding)
+              จากรูปของคุณ แล้วนำไปเปรียบเทียบกับรูปในฐานข้อมูล
+              เพื่อค้นหารายการที่คล้ายกันมากที่สุด
+            </div>
+            <div class="image-info-pill">
+              <span>●</span>
+              <span>ประมวลผลบนเซิร์ฟเวอร์ของมหาวิทยาลัย</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        PSU Lost &amp; Found Community · ระบบต้นแบบสำหรับนิสิตและบุคลากร
+        มหาวิทยาลัยสงขลานครินทร์
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    function logout() {
+      // สามารถเปลี่ยนเป็นลบ token / clear session ได้ภายหลัง
+      window.location.href = "login.html";
+    }
+
+    // handle click dropzone → เปิด file picker
+    const dropzone = document.querySelector(".dropzone");
+    const imageInput = document.getElementById("imageInput");
+
+    dropzone.addEventListener("click", () => {
+      imageInput.click();
+    });
+
+    imageInput.addEventListener("change", () => {
+      if (imageInput.files.length > 0) {
+        alert(
+          "เลือกรูปแล้ว (ฝั่งจริงคุณจะส่งไฟล์นี้ไปยัง API เพื่อให้ AI คำนวณ similarity ต่อได้)"
+        );
+      }
+    });
+  </script>
+</body>
+</html>
